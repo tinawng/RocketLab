@@ -6,8 +6,11 @@
 
 <style lang="postcss">
 #__layout {
-  @apply min-h-screen;
-  max-width: 64rem;
+  @apply bg-white;
+}
+.layout__container {
+  @apply min-h-screen max-w-7xl;
   @apply mx-auto;
+  @apply flex justify-center items-center;
 }
 </style>

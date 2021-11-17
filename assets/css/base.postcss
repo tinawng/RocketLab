@@ -8,5 +8,25 @@ html {
   -ms-touch-action: manipulation;
   touch-action: manipulation;
 
-  font-family: "Roboto";
+  font-family: "Helvetica Now Text";
+  @apply text-gray;
+}
+
+h1 {
+  @apply text-2xl;
+}
+h4 {
+  @apply text-sm;
+}
+h5 {
+  @apply text-xs;
+}
+
+@font-face {
+  font-family: 'Helvetica Now Text';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local(''),
+       url('../../static/fonts/helvetica/HelveticaNowText-Regular.otf') format('woff2');
 }
