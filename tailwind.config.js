@@ -16,6 +16,7 @@ module.exports = {
       yellow: '#F9BC32',
       green: '#43AD67',
       blue: '#447DD9',
+      'light-blue': '#F5FBFF',
     },
     extend: {
       height: {
