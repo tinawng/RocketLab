@@ -9,7 +9,7 @@
   @apply bg-white;
 }
 .layout__container {
-  @apply min-h-screen max-w-7xl;
+  @apply min-h-screen max-w-7xl portrait:max-w-none;
   @apply mx-auto;
   @apply flex justify-center items-center;
 }

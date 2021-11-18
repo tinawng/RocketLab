@@ -1,12 +1,12 @@
 <template>
   <div class="page__container">
-    <div class="w-full flex justify-between flex-wrap">
+    <div class="w-full flex justify-between flex-wrap portrait:justify-center portrait:gap-8">
       <cards-log />
       <cards-oscillator />
       <cards-filter />
       <cards-envelope />
     </div>
-    <div class="w-full flex gap-7">
+    <div class="w-full flex gap-7 portrait:justify-center portrait:flex-wrap">
       <div class="text-center">
         <h4>Pitch</h4>
         <utils-slider-vertical color="#00004C" />
@@ -37,7 +37,6 @@ export default {
 
     // Connection opened
     socket.addEventListener("open", (event) => {
-      // socket.send("Hello Server!");
 
       this.$nuxt.$on("midi-event", (midi_event) => {
         midi_event[0] = this.$store.getters["midi/getFunctionMidiValue"](midi_event[0]);
@@ -60,6 +59,7 @@ export default {
 <style lang="postcss">
 .page__container {
   @apply w-full;
+  @apply portrait:pt-8;
   @apply flex flex-col gap-16;
 }
 </style>

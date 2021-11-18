@@ -27,6 +27,9 @@ module.exports = {
         'fit': 'fit-content',
         '18': '4.5rem',
       },
+      screens: {
+        'portrait': { 'raw': '(orientation: portrait)' },
+      },
     }
   },
   variants: {
