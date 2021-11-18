@@ -20,16 +20,41 @@
         <utils-slider-vertical color="#00004C" />
       </div>
       <div class="flex justify-end flex-wrap gap-8">
-        <keyboard />
-        <keyboard />
-        <keyboard />
-        <keyboard />
+        <keyboard :base_note="53"/>
+        <keyboard :base_note="65"/>
+        <keyboard :base_note="29"/>
+        <keyboard :base_note="41"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+export default {
+
+  mounted() {
+    const socket = new WebSocket("ws://192.168.34.203:8123");
+
+    // Connection opened
+    socket.addEventListener("open", (event) => {
+      // socket.send("Hello Server!");
+
+      this.$nuxt.$on("midi-event", (midi_event) => {
+        midi_event[0] = this.$store.getters["midi/getFunctionMidiValue"](midi_event[0]);
+
+        if (midi_event[0] == 144) midi_event[2] = Math.max(1, midi_event[2]);
+        if (midi_event[0] == 176) midi_event[1] = this.$store.getters["midi/getFunctionMidiValue"](midi_event[1]);
+
+        socket.send(midi_event);
+      });
+    });
+
+    // Listen for messages
+    socket.addEventListener("message", (event) => {
+      this.$nuxt.$emit('log-event', event.data)
+    });
+  },
+};
 </script>
 
 <style lang="postcss">

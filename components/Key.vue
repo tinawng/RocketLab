@@ -1,11 +1,29 @@
 <template>
-  <div class="key__container" :class="{'key_dark': dark}"></div>
+  <div
+    class="key__container"
+    :class="{'key_dark': dark}"
+    @mousedown="keyDown(); mouse_down = true"
+    @mouseup="keyUp(); mouse_down = false"
+    @mouseleave="keyUp()"
+  ></div>
 </template>
 
 <script>
 export default {
   props: {
+    midi_note: Number,
     dark: Boolean,
+  },
+
+  data: () => ({ mouse_down: false, note_velocity: 127 }),
+
+  methods: {
+    keyDown() {
+      this.$nuxt.$emit("midi-event", ["note-on", this.midi_note, this.note_velocity]);
+    },
+    keyUp() {
+      if (this.mouse_down) this.$nuxt.$emit("midi-event", ["note-off", this.midi_note, 0]);
+    },
   },
 };
 </script>

@@ -7,7 +7,8 @@
     "generate": "nuxt generate --modern"
   },
   "dependencies": {
-    "websocket": "^1.0.34"
+    "websocket": "^1.0.34",
+    "ws": "^8.2.3"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^4.2.1",

@@ -65,9 +65,6 @@ export default {
         }
       }
     },
-    splitChunks: {
-      layouts: true
-    }
   },
 
   render: {

@@ -12,29 +12,91 @@
         </div>
       </transition>
 
-      <div class="card__log">
-        <!-- Max 13 rows -->
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-        <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-      </div>
+      <!-- <div class="card__logs"> -->
+      <transition-group name="list" tag="div" class="card__logs">
+        <h5 v-for="log in logs" :key="log.id">
+          <span class="text-blue">{{log.user}}</span> changed <span class="text-orange">{{log.type}}</span> to {{log.value}}
+        </h5>
+      </transition-group>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data: () => ({ notif_panel: false, countdown: 5 }),
+  data: () => ({
+    notif_panel: false,
+    countdown: 5,
+    logs: [],
+    fruits: [
+      "Avocado",
+      "Banana",
+      "Blackberries",
+      "Blackcurrant",
+      "Blueberries",
+      "Breadfruit",
+      "Cantaloupe",
+      "Carambola",
+      "Cherimoya",
+      "Cherries",
+      "Clementine",
+      "Coconut",
+      "Cranberries",
+      "Date Fruit",
+      "Durian",
+      "Elderberries",
+      "Feijoa",
+      "Figs",
+      "Gooseberries",
+      "Grapefruit",
+      "Grapes",
+      "Guava",
+      "Honeydew",
+      "Melon",
+      "Jackfruit",
+      "Kiwifruit",
+      "Kumquat",
+      "Lemon",
+      "Lime",
+      "Longan",
+      "Loquat",
+      "Lychee",
+      "Mandarin",
+      "Mango",
+      "Mangosteen",
+      "Mulberries",
+      "Nectarine",
+      "Olives",
+      "Orange",
+      "Papaya",
+      "Peaches",
+      "Pear",
+      "Persimmon",
+      "Pineapple",
+      "Pitanga",
+      "Plantain",
+      "Plums",
+      "Pomegranate",
+      "Prunes",
+      "Pummelo",
+      "Quince",
+      "Raspberries",
+      "Rhubarb",
+      "Sapodilla",
+      "Soursop",
+      "Strawberries",
+      "Tamarind",
+      "Tangerine",
+      "Watermelon",
+    ],
+  }),
+
+  created() {
+    this.$nuxt.$on("log-event", (event) => {
+      let fruit = this.fruits[Math.floor(Math.random() * this.fruits.length)];
+      this.logs.unshift({ user: fruit, type: "Oscillator Type", value: event[2], id: this.UUID() });
+    });
+  },
 
   methods: {
     triggerNotifPanel() {
@@ -48,6 +110,16 @@ export default {
         }
       }, 1000);
     },
+
+    UUID() {
+      var dt = new Date().getTime();
+      var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+        var r = (dt + Math.random() * 16) % 16 | 0;
+        dt = Math.floor(dt / 16);
+        return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+      });
+      return uuid;
+    },
   },
 };
 </script>
@@ -56,6 +128,7 @@ export default {
 .card__container {
   @apply w-72;
   @apply bg-white;
+  @apply flex flex-col;
 
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
 }
@@ -65,6 +138,7 @@ export default {
 }
 .card__content {
   @apply relative;
+  @apply h-full;
   @apply overflow-hidden;
 }
 
@@ -77,11 +151,13 @@ export default {
   @apply font-bold;
 }
 
-.card__log {
+.card__logs {
   @apply relative;
+  @apply h-64;
   @apply flex flex-col gap-1;
+  @apply overflow-hidden;
 }
-.card__log:after {
+.card__logs:after {
   content: "";
   @apply absolute bottom-0;
   @apply h-full w-full;
@@ -101,5 +177,15 @@ export default {
 .slide-enter,
 .slide-leave-to {
   transform: translateY(-100%);
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

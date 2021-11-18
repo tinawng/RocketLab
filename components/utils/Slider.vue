@@ -29,9 +29,10 @@ export default {
   },
   mounted() {
     var current_step = this.default_value;
-    this.thumb_position = current_step * (100 / (this.step - 1));
-    this.$emit("update:value", current_step);
+    if (this.discrete) this.thumb_position = current_step * (100 / (this.step - 1));
+    else this.thumb_position = current_step;
     this.value = current_step;
+    // this.$emit("update:value", current_step);
   },
   methods: {
     seekValue(event) {
@@ -81,9 +82,5 @@ export default {
 }
 .slider__container:active .slider__thumb {
   background-color: var(--slider-color);
-}
-
-.slider_dicrete {
-  transition: left 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
