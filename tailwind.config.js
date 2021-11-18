@@ -27,6 +27,9 @@ module.exports = {
         'fit': 'fit-content',
         '18': '4.5rem',
       },
+      maxWidth: {
+        'screen': '100vw',
+       },
       screens: {
         'portrait': { 'raw': '(orientation: portrait)' },
       },

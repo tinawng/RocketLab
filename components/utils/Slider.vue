@@ -3,10 +3,10 @@
     ref="slider"
     class="slider__container"
     :style="css_var"
-    @mousedown="is_mouse_down = true"
-    @mouseup="is_mouse_down = false"
+    v-touch:start="() => {is_mouse_down = true}"
+    v-touch:end="() => {is_mouse_down = false}"
+    v-touch:moving="seekValue"
     @mouseleave="is_mouse_down = false"
-    @mousemove="seekValue"
     @click="setValue"
   >
     <div class="slider__bar" />
@@ -41,16 +41,27 @@ export default {
     },
     setValue(event) {
       var container_width = this.$refs["slider"].clientWidth;
+
       if (this.discrete) {
-        var ratio = Math.max(0, Math.min((event.offsetX / container_width) * 100, 100));
+        if (event.touches)
+          var ratio = Math.max(
+            0,
+            Math.min(((event.touches[0].clientX - this.$refs["slider"].offsetLeft) / container_width) * 100, 100)
+          );
+        else var ratio = Math.max(0, Math.min((event.offsetX / container_width) * 100, 100));
         var current_step = Math.round(ratio / (100 / (this.step - 1)));
         this.thumb_position = current_step * (100 / (this.step - 1));
         this.$emit("update:value", current_step);
         this.value = current_step;
       } else {
-        this.thumb_position = Math.max(0, Math.min((event.offsetX / container_width) * 100, 100));
-        this.$emit("update:value", this.thumb_position);
-        this.value = this.thumb_position;
+        if (event.touches)
+          this.value = Math.max(
+            0,
+            Math.min(((event.touches[0].clientX - this.$refs["slider"].offsetLeft) / container_width) * 100, 100)
+          );
+        else this.value = Math.max(0, Math.min((event.offsetX / container_width) * 100, 100));
+        this.$emit("update:value", this.value);
+        this.thumb_position = this.value;
       }
     },
   },

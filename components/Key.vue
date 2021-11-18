@@ -2,9 +2,8 @@
   <div
     class="key__container"
     :class="{'key_dark': dark}"
-    @mousedown="keyDown(); mouse_down = true"
-    @mouseup="keyUp(); mouse_down = false"
-    @mouseleave="keyUp()"
+    v-touch:start="keyDown"
+    v-touch:end="keyUp"
   ></div>
 </template>
 
@@ -19,9 +18,11 @@ export default {
 
   methods: {
     keyDown() {
+      console.log('down');
       this.$nuxt.$emit("midi-event", ["note-on", this.midi_note, this.note_velocity]);
     },
     keyUp() {
+      console.log('up');
       if (this.mouse_down) this.$nuxt.$emit("midi-event", ["note-off", this.midi_note, 0]);
     },
   },
