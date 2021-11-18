@@ -49,12 +49,6 @@ export default {
       }, 1000);
     },
   },
-
-  // created() {
-  //   setInterval(() => {
-  //     this.notif = !this.notif;
-  //   }, 2000);
-  // },
 };
 </script>
 
