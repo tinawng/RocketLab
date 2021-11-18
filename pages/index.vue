@@ -9,15 +9,15 @@
     <div class="w-full flex gap-7">
       <div class="text-center">
         <h4>Pitch</h4>
-        <utils-slider-verticale color="#00004C" />
+        <utils-slider-vertical color="#00004C" />
       </div>
       <div class="text-center">
         <h4>Glide</h4>
-        <utils-slider-verticale color="#00004C" />
+        <utils-slider-vertical color="#00004C" />
       </div>
       <div class="text-center">
         <h4>Glide</h4>
-        <utils-slider-verticale color="#00004C" />
+        <utils-slider-vertical color="#00004C" />
       </div>
       <div class="flex justify-end flex-wrap gap-8">
         <keyboard />

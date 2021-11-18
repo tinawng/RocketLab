@@ -1,6 +1,6 @@
 <template>
   <div class="card__container">
-    <h1 class="bg-blue bg-opacity-80 text-white">Evenlope</h1>
+    <h1 class="bg-blue bg-opacity-80 text-white">Envelope</h1>
     <div>
       <div class="flex justify-between items-center">
         <h4>Attack</h4>
