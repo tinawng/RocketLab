@@ -2,9 +2,7 @@
   <div class="card__container">
     <h1 class="bg-dark bg-opacity-90 text-white">RocketLab 🚀</h1>
     <div class="flex flex-col gap-1">
-      <!-- Max 15 rows -->
-      <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
-      <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
+      <!-- Max 13 rows -->
       <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
       <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
       <h5>Avocado changed <span class="text-orange">Oscillator Type</span> to 25%</h5>
@@ -38,7 +36,7 @@ export default {};
   content: "";
   @apply absolute bottom-0;
   @apply h-full w-full;
-  background: linear-gradient(0deg, #FFF 5%, #FFF0 50%);
+  background: linear-gradient(0deg, #FFF 5%, #FFF0 30%);
 }
 
 .card__container > * {
