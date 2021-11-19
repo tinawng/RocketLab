@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "generate": "nuxt generate --modern"
+    "generate": "nuxt generate --modern",
+    "deploy": "scp -r ./dist kube1:/home/fabian/work/static-servers/rocketlab"
   },
   "dependencies": {
     "vue2-touch-events": "https://github.com/tinawng/vue-touch-events",
