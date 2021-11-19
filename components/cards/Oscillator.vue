@@ -56,11 +56,20 @@
 
 <script>
 export default {
-  data: () => ({ osc_type: 7, osc_wave: 25, osc_tymbre: 50, osc_shape: 75 }),
+  data: () => ({ osc_type: 7, osc_wave: 25, osc_tymbre: 50, osc_shape: 75,
+    controls: { 'osc-type': 0, 'osc-wave': 0, 'osc-tymbre': 0, 'osc-shape': 0}
+  }),
+
+  created() {
+    this.$nuxt.$on("rx-midi-event", (event) => {
+      if (event[0].startsWith("cc") && Object.keys(this.controls).includes(event[1]))
+        this.controls[event[1]] = event[2];
+    });
+  },
 
   methods: {
     emitMidiEvent(type, value) {
-      this.$nuxt.$emit("midi-event", ["cc", type, value]);
+      this.$nuxt.$emit("tx-midi-event", ["cc", type, value]);
     },
   },
 };

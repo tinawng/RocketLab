@@ -16,24 +16,31 @@
 
 <script>
 export default {
-  props: { discrete: Boolean, step: Number, default_value: Number, color: String },
   model: {
     prop: "value",
     event: "change",
   },
+
+  props: { discrete: Boolean, step: Number, default_value: Number, shown_value: Number, color: String },
   data: () => ({ is_mouse_down: false, thumb_position: 0, value: 0 }),
   computed: {
     css_var: function () {
       return `--thumb-position: ${this.thumb_position}%; --slider-color: ${this.color}`;
     },
   },
+  watch: {
+    shown_value: function (value) {
+      this.thumb_position = value;
+    },
+  },
+
   mounted() {
     var current_step = this.default_value;
     if (this.discrete) this.thumb_position = current_step * (100 / (this.step - 1));
     else this.thumb_position = current_step;
     this.value = current_step;
-    // this.$emit("update:value", current_step);
   },
+
   methods: {
     seekValue(event) {
       if (!this.is_mouse_down) return;

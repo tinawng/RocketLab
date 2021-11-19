@@ -1,9 +1,10 @@
 <template>
   <div
     class="key__container"
-    :class="{'key_dark': dark}"
-    v-touch:start="keyDown"
-    v-touch:end="keyUp"
+    :class="{'key_dark': dark, 'key_active': active}"
+    v-touch:start="() => {mouse_down = true}"
+    v-touch:end="() => {mouse_down = false}"
+    @mouseleave="() => {mouse_down = false}"
   ></div>
 </template>
 
@@ -14,17 +15,24 @@ export default {
     dark: Boolean,
   },
 
-  data: () => ({ mouse_down: false, note_velocity: 127 }),
+  data: () => ({ mouse_down: false, active: false, note_velocity: 127 }),
 
-  methods: {
-    keyDown() {
-      console.log('down');
-      this.$nuxt.$emit("midi-event", ["note-on", this.midi_note, this.note_velocity]);
+  watch: {
+    mouse_down: function (mouse_down) {
+      this.$nuxt.$emit("tx-midi-event", [
+        mouse_down ? "note-on" : "note-off",
+        this.midi_note,
+        mouse_down ? this.note_velocity : 0,
+      ]);
     },
-    keyUp() {
-      console.log('up');
-      if (this.mouse_down) this.$nuxt.$emit("midi-event", ["note-off", this.midi_note, 0]);
-    },
+  },
+
+  created() {
+    this.$nuxt.$on("rx-midi-event", (event) => {
+      if (event[0].startsWith("note") && event[1] === this.midi_note) {
+        this.active = event[2] > 0;
+      }
+    });
   },
 };
 </script>
@@ -36,15 +44,16 @@ export default {
   @apply rounded-full;
 
   @apply transition-colors;
+  user-select: none;
 }
-.key__container:active {
+.key_active {
   @apply border-orange;
 }
 .key_dark {
   @apply mt-0;
   @apply bg-dark;
 }
-.key_dark:active {
+.key_dark.key_active {
   @apply bg-orange border-orange;
 }
 </style>

@@ -38,5 +38,8 @@ export const mutations = {
 export const getters = {
     getFunctionMidiValue: (state) => (function_name) => {
         return state.functions[function_name];
+    },
+    getFunctionMidiName: (state) => (function_value) => {
+        return Object.keys(state.functions).find(key => state.functions[key] === function_value);
     }
 }

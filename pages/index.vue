@@ -20,10 +20,10 @@
         <utils-slider-vertical color="#00004C" />
       </div>
       <div class="flex justify-end flex-wrap gap-8">
-        <keyboard :base_note="53"/>
-        <keyboard :base_note="65"/>
-        <keyboard :base_note="29"/>
-        <keyboard :base_note="41"/>
+        <keyboard :base_note="53" />
+        <keyboard :base_note="65" />
+        <keyboard :base_note="29" />
+        <keyboard :base_note="41" />
       </div>
     </div>
   </div>
@@ -31,26 +31,29 @@
 
 <script>
 export default {
-
   mounted() {
     const socket = new WebSocket("ws://192.168.34.203:8123");
 
-    // Connection opened
     socket.addEventListener("open", (event) => {
-
-      this.$nuxt.$on("midi-event", (midi_event) => {
+      this.$nuxt.$on("tx-midi-event", (midi_event) => {
         midi_event[0] = this.$store.getters["midi/getFunctionMidiValue"](midi_event[0]);
-
         if (midi_event[0] == 144) midi_event[2] = Math.max(1, midi_event[2]);
         if (midi_event[0] == 176) midi_event[1] = this.$store.getters["midi/getFunctionMidiValue"](midi_event[1]);
 
-        socket.send(midi_event);
+        socket.send(JSON.stringify(midi_event));
       });
     });
 
-    // Listen for messages
     socket.addEventListener("message", (event) => {
-      this.$nuxt.$emit('log-event', event.data)
+      event = JSON.parse(event.data);
+
+      let midi_event = [];
+      midi_event[0] = this.$store.getters["midi/getFunctionMidiName"](event.midi[0]);
+      if (midi_event[0] == "cc") midi_event[1] = this.$store.getters["midi/getFunctionMidiName"](event.midi[1]);
+      else midi_event[1] = event.midi[1];
+      midi_event[2] = event.midi[2];
+      this.$nuxt.$emit("rx-midi-event", midi_event);
+      this.$nuxt.$emit("log-midi-event", { user_name: event.user_name, midi: midi_event });
     });
   },
 };

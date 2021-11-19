@@ -28,73 +28,11 @@ export default {
     notif_panel: false,
     countdown: 5,
     logs: [],
-    fruits: [
-      "Avocado",
-      "Banana",
-      "Blackberries",
-      "Blackcurrant",
-      "Blueberries",
-      "Breadfruit",
-      "Cantaloupe",
-      "Carambola",
-      "Cherimoya",
-      "Cherries",
-      "Clementine",
-      "Coconut",
-      "Cranberries",
-      "Date Fruit",
-      "Durian",
-      "Elderberries",
-      "Feijoa",
-      "Figs",
-      "Gooseberries",
-      "Grapefruit",
-      "Grapes",
-      "Guava",
-      "Honeydew",
-      "Melon",
-      "Jackfruit",
-      "Kiwifruit",
-      "Kumquat",
-      "Lemon",
-      "Lime",
-      "Longan",
-      "Loquat",
-      "Lychee",
-      "Mandarin",
-      "Mango",
-      "Mangosteen",
-      "Mulberries",
-      "Nectarine",
-      "Olives",
-      "Orange",
-      "Papaya",
-      "Peaches",
-      "Pear",
-      "Persimmon",
-      "Pineapple",
-      "Pitanga",
-      "Plantain",
-      "Plums",
-      "Pomegranate",
-      "Prunes",
-      "Pummelo",
-      "Quince",
-      "Raspberries",
-      "Rhubarb",
-      "Sapodilla",
-      "Soursop",
-      "Strawberries",
-      "Tamarind",
-      "Tangerine",
-      "Watermelon",
-    ],
   }),
 
   created() {
-    this.$nuxt.$on("log-event", (event) => {
-      let fruit = this.fruits[Math.floor(Math.random() * this.fruits.length)];
-      this.logs.unshift({ user: fruit, type: "Oscillator Type", value: event[2], id: this.UUID() });
+    this.$nuxt.$on("log-midi-event", (event) => {
+      this.logs.unshift({ user: event.user_name, type: event.midi[1], value: Math.floor(event.midi[2]), id: this.UUID() });
     });
   },
 
@@ -181,7 +119,7 @@ export default {
 
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 .list-enter,
 .list-leave-to {

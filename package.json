@@ -7,7 +7,7 @@
     "generate": "nuxt generate --modern"
   },
   "dependencies": {
-    "vue2-touch-events": "^3.2.2",
+    "vue2-touch-events": "https://github.com/tinawng/vue-touch-events",
     "websocket": "^1.0.34",
     "ws": "^8.2.3"
   },
