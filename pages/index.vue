@@ -40,8 +40,10 @@ export default {
         if (midi_event[0] == 144) midi_event[2] = Math.max(1, midi_event[2]);
         if (midi_event[0] == 176) midi_event[1] = this.$store.getters["midi/getFunctionMidiValue"](midi_event[1]);
 
-        socket.send(JSON.stringify(midi_event));
+        socket.send(JSON.stringify({type: 'midi-event', data: midi_event}));
       });
+
+      // socket.send(JSON.stringify({type: 'ask-stream'}));
     });
 
     socket.addEventListener("message", (event) => {
