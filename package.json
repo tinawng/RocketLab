@@ -10,6 +10,7 @@
   "dependencies": {
     "vue2-touch-events": "https://github.com/tinawng/vue-touch-events",
     "websocket": "^1.0.34",
+    "worklet-loader": "^2.0.0",
     "ws": "^8.2.3"
   },
   "devDependencies": {

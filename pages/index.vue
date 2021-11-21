@@ -1,7 +1,7 @@
 <template>
   <div class="page__container">
     <div class="w-full flex justify-between flex-wrap portrait:justify-center portrait:gap-8">
-      <cards-log />
+      <cards-log @click.native="connect" />
       <cards-oscillator />
       <cards-filter />
       <cards-envelope />
@@ -30,33 +30,19 @@
 </template>
 
 <script>
+import websocket_helper from "~/mixins/websocket-helper.js";
 export default {
-  mounted() {
-    const socket = new WebSocket("ws://192.168.34.203:8123");
+  mixins: [websocket_helper],
 
-    socket.addEventListener("open", (event) => {
-      this.$nuxt.$on("tx-midi-event", (midi_event) => {
-        midi_event[0] = this.$store.getters["midi/getFunctionMidiValue"](midi_event[0]);
-        if (midi_event[0] == 144) midi_event[2] = Math.max(1, midi_event[2]);
-        if (midi_event[0] == 176) midi_event[1] = this.$store.getters["midi/getFunctionMidiValue"](midi_event[1]);
+  mounted() {},
 
-        socket.send(JSON.stringify({type: 'midi-event', data: midi_event}));
-      });
-
-      // socket.send(JSON.stringify({type: 'ask-stream'}));
-    });
-
-    socket.addEventListener("message", (event) => {
-      event = JSON.parse(event.data);
-
-      let midi_event = [];
-      midi_event[0] = this.$store.getters["midi/getFunctionMidiName"](event.midi[0]);
-      if (midi_event[0] == "cc") midi_event[1] = this.$store.getters["midi/getFunctionMidiName"](event.midi[1]);
-      else midi_event[1] = event.midi[1];
-      midi_event[2] = event.midi[2];
-      this.$nuxt.$emit("rx-midi-event", midi_event);
-      this.$nuxt.$emit("log-midi-event", { user_name: event.user_name, midi: midi_event });
-    });
+  methods: {
+    connect() {
+      // 🔊 Audio
+      this.startAudio();
+      // 🔌 WebSocket
+      this.connectWebSocket();
+    },
   },
 };
 </script>

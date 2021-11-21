@@ -41,6 +41,15 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    extend(config, { isClient }) {
+      if (isClient) {
+        config.module.rules.push({
+          test: /\.worklet\.js$/,
+          loader: 'worklet-loader',
+          exclude: /(node_modules)/
+        })
+      }
+    },
     html: {
       minify: {
         collapseBooleanAttributes: true,
